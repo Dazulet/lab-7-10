@@ -33,7 +33,7 @@ public class TicketService implements TicketServiceInterface{
     @Override
     public TicketDTO getTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id).orElse(null);
-        if (Objects.isNull(ticket)) {
+        if ((ticket)==null) {
             return null;
         }
         return toDto(ticket);
@@ -43,7 +43,7 @@ public class TicketService implements TicketServiceInterface{
     public TicketDTO addTicket(TicketDTO ticketDto) {
         Session session = sessionRepository.findById(ticketDto.getSessionId()).orElse(null);
         User user = userRepository.findById(ticketDto.getUserId()).orElse(null);
-        if (Objects.isNull(session) || Objects.isNull(user)) {
+        if ((session)==null || (user)==null) {
             return null;
         }
         Ticket ticket = toEntity(ticketDto);
@@ -55,7 +55,7 @@ public class TicketService implements TicketServiceInterface{
 
     @Override
     public boolean deleteTicket(Long id) {
-        if (Objects.isNull(getTicket(id))) {
+        if ((getTicket(id))==null) {
             return false;
         }
         ticketRepository.deleteById(id);

@@ -33,7 +33,7 @@ public class MovieService implements MoviesServiceInterface{
     @Override
     public MovieDTO getMovie(Long id) {
         Movie movie = movieRepository.findById(id).orElse(null);
-        if (Objects.isNull(movie)) {
+        if (movie==null) {
             return null;
         }
         return toDto(movie);
@@ -49,7 +49,7 @@ public class MovieService implements MoviesServiceInterface{
     @Override
     public MovieDTO updateMovie(Long id, MovieDTO movieDto) {
         MovieDTO checkMovie = getMovie(id);
-        if (Objects.isNull(checkMovie)) {
+        if (checkMovie==null) {
             return null;
         }
         Movie movie = toEntity(movieDto);
@@ -61,7 +61,7 @@ public class MovieService implements MoviesServiceInterface{
     @Override
     public boolean deleteMovie(Long id) {
         MovieDTO checkMovie = getMovie(id);
-        if (Objects.isNull(checkMovie)) {
+        if (checkMovie==null) {
             return false;
         }
         movieRepository.deleteById(id);
@@ -71,7 +71,7 @@ public class MovieService implements MoviesServiceInterface{
     @Override
     public MovieScheduleDTO getMovieSchedule(Long id) {
         Movie movie = movieRepository.findById(id).orElse(null);
-        if (Objects.isNull(movie)) {
+        if (movie==null) {
             return null;
         }
         return toMovieScheduleDTO(movie);
@@ -100,7 +100,8 @@ public class MovieService implements MoviesServiceInterface{
         List<MovieScheduleDTO.SessionInfo> schedule = new ArrayList<>();
 
         sessions.forEach(session -> {
-            MovieScheduleDTO.SessionInfo sessionInfo = MovieScheduleDTO.SessionInfo.builder()
+            MovieScheduleDTO.SessionInfo sessionInfo = MovieScheduleDTO.SessionInfo
+                    .builder()
                     .sessionId(session.getId())
                     .startTime(session.getStartTime())
                     .hallNumber(session.getHallNumber())

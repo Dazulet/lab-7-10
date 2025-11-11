@@ -27,7 +27,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public UserDTO getUser(Long id) {
         User user = userRepository.findById(id).orElse(null);
-        if (Objects.isNull(user)) {
+        if ((user)==null) {
             return null;
         }
         return toDto(user);
@@ -43,7 +43,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public UserDTO updateUser(Long id, UserDTO userDto) {
         UserDTO checkUser = getUser(id);
-        if (Objects.isNull(checkUser)) {
+        if ((checkUser)==null) {
             return null;
         }
         User user = toEntity(userDto);
@@ -55,7 +55,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public boolean deleteUser(Long id) {
         UserDTO checkUser = getUser(id);
-        if (Objects.isNull(checkUser)) {
+        if ((checkUser)==null) {
             return false;
         }
         userRepository.deleteById(id);

@@ -30,7 +30,7 @@ public class SessionService implements SessionServiceInterface{
     @Override
     public SessionDTO getSession(Long id) {
         Session session = sessionRepository.findById(id).orElse(null);
-        if (Objects.isNull(session)) {
+        if ((session)==null) {
             return null;
         }
         return toDto(session);
@@ -39,7 +39,7 @@ public class SessionService implements SessionServiceInterface{
     @Override
     public SessionDTO addSession(SessionDTO sessionDto) {
         Movie movie = movieRepository.findById(sessionDto.getMovieId()).orElse(null);
-        if (Objects.isNull(movie)) {
+        if ((movie)==null) {
             return null;
         }
         Session session = toEntity(sessionDto);
@@ -50,11 +50,11 @@ public class SessionService implements SessionServiceInterface{
 
     @Override
     public SessionDTO updateSession(Long id, SessionDTO sessionDto) {
-        if (Objects.isNull(getSession(id))) {
+        if ((getSession(id))==null) {
             return null;
         }
         Movie movie = movieRepository.findById(sessionDto.getMovieId()).orElse(null);
-        if (Objects.isNull(movie)) {
+        if ((movie)==null) {
             return null;
         }
         Session session = toEntity(sessionDto);
@@ -66,7 +66,7 @@ public class SessionService implements SessionServiceInterface{
 
     @Override
     public boolean deleteSession(Long id) {
-        if (Objects.isNull(getSession(id))) {
+        if ((getSession(id))==null) {
             return false;
         }
         sessionRepository.deleteById(id);

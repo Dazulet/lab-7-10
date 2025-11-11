@@ -30,11 +30,11 @@ public class MovieController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MovieDTO> getMovie(@PathVariable Long id) {
-        MovieDTO movie = movieService.getMovie(id);
-        if (Objects.isNull(movie)) {
+        MovieDTO movieId = movieService.getMovie(id);
+        if (Objects.isNull(movieId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(movie);
+        return ResponseEntity.ok(movieId);
     }
 
     @GetMapping("/{id}/schedule")

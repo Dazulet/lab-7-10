@@ -41,7 +41,6 @@ public class SessionController {
     public ResponseEntity<SessionDTO> addSession(@RequestBody SessionDTO sessionDto) {
         SessionDTO createdSession = sessionService.addSession(sessionDto);
         if (Objects.isNull(createdSession)) {
-
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(createdSession, HttpStatus.CREATED);
