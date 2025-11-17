@@ -2,6 +2,8 @@ package world.globalcargo.cinema.dto;
 
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -12,4 +14,5 @@ public class MovieDTO {
     private String title;
     private String description;
     private int duration;
+    private Set<GenreDTO> genres;
 }

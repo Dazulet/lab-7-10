@@ -6,6 +6,7 @@ import world.globalcargo.cinema.dto.MovieDTO;
 import world.globalcargo.cinema.dto.MovieScheduleDTO;
 import world.globalcargo.cinema.entite.Movie;
 import world.globalcargo.cinema.entite.Session;
+import world.globalcargo.cinema.mappers.MovieMapper;
 import world.globalcargo.cinema.repositories.MovieRepository;
 import world.globalcargo.cinema.service.MoviesServiceInterface;
 
@@ -18,50 +19,41 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MovieService implements MoviesServiceInterface{
     private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
 
     @Override
     public List<MovieDTO> getAllMovies() {
-        List<Movie> movies = movieRepository.findAll();
-        List<MovieDTO> movieDtoList = new ArrayList<>();
-        movies.forEach(movie -> {
-            MovieDTO dto = toDto(movie);
-            movieDtoList.add(dto);
-        });
-        return movieDtoList;
+        return movieMapper.toDtoList(movieRepository.findAll());
     }
 
     @Override
     public MovieDTO getMovie(Long id) {
-        Movie movie = movieRepository.findById(id).orElse(null);
-        if (movie==null) {
-            return null;
-        }
-        return toDto(movie);
+        return movieRepository.findById(id)
+                .map(movieMapper::toDto)
+                .orElse(null);
     }
 
     @Override
     public MovieDTO addMovie(MovieDTO movieDto) {
-        Movie movie = toEntity(movieDto);
+        Movie movie = movieMapper.toEntity(movieDto);
         Movie createdMovie = movieRepository.save(movie);
-        return toDto(createdMovie);
+        return movieMapper.toDto(createdMovie);
     }
 
     @Override
     public MovieDTO updateMovie(Long id, MovieDTO movieDto) {
-        MovieDTO checkMovie = getMovie(id);
-        if (checkMovie==null) {
+        if (!movieRepository.existsById(id)) {
             return null;
         }
-        Movie movie = toEntity(movieDto);
+        Movie movie = movieMapper.toEntity(movieDto);
         movie.setId(id);
         Movie updatedMovie = movieRepository.save(movie);
-        return toDto(updatedMovie);
+        return movieMapper.toDto(updatedMovie);
     }
 
     @Override
     public boolean deleteMovie(Long id) {
-        MovieDTO checkMovie = getMovie(id);
-        if (checkMovie==null) {
+        if (!movieRepository.existsById(id)) {
             return false;
         }
         movieRepository.deleteById(id);
@@ -77,22 +69,22 @@ public class MovieService implements MoviesServiceInterface{
         return toMovieScheduleDTO(movie);
     }
 
-    private MovieDTO toDto(Movie movie) {
-        return MovieDTO.builder()
-                .id(movie.getId())
-                .title(movie.getTitle())
-                .description(movie.getDescription())
-                .duration(movie.getDuration())
-                .build();
-    }
-
-    private Movie toEntity(MovieDTO dto) {
-        Movie movie = new Movie();
-        movie.setTitle(dto.getTitle());
-        movie.setDescription(dto.getDescription());
-        movie.setDuration(dto.getDuration());
-        return movie;
-    }
+//    private MovieDTO toDto(Movie movie) {
+//        return MovieDTO.builder()
+//                .id(movie.getId())
+//                .title(movie.getTitle())
+//                .description(movie.getDescription())
+//                .duration(movie.getDuration())
+//                .build();
+//    }
+//
+//    private Movie toEntity(MovieDTO dto) {
+//        Movie movie = new Movie();
+//        movie.setTitle(dto.getTitle());
+//        movie.setDescription(dto.getDescription());
+//        movie.setDuration(dto.getDuration());
+//        return movie;
+//    }
 
     private MovieScheduleDTO toMovieScheduleDTO(Movie movie) {
         List<Session> sessions = movie.getSessions();
