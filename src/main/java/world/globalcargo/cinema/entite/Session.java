@@ -11,8 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "sessions")
-@Getter
-@Setter
+@Data
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

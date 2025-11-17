@@ -96,9 +96,7 @@ public class MovieService implements MoviesServiceInterface{
 
     private MovieScheduleDTO toMovieScheduleDTO(Movie movie) {
         List<Session> sessions = movie.getSessions();
-
         List<MovieScheduleDTO.SessionInfo> schedule = new ArrayList<>();
-
         sessions.forEach(session -> {
             MovieScheduleDTO.SessionInfo sessionInfo = MovieScheduleDTO.SessionInfo
                     .builder()
@@ -110,7 +108,6 @@ public class MovieService implements MoviesServiceInterface{
 
             schedule.add(sessionInfo);
         });
-
 
         return MovieScheduleDTO.builder()
                 .id(movie.getId())

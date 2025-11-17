@@ -13,5 +13,4 @@ public interface MoviesServiceInterface {
     MovieDTO updateMovie(Long id, MovieDTO movie);
     boolean deleteMovie(Long id);
     MovieScheduleDTO getMovieSchedule(Long id);
-
 }
