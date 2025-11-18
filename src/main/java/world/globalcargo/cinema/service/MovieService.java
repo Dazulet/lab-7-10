@@ -28,10 +28,13 @@ public class MovieService implements MoviesServiceInterface{
 
     @Override
     public MovieDTO getMovie(Long id) {
-        return movieRepository.findById(id)
-                .map(movieMapper::toDto)
-                .orElse(null);
+        Movie movie = movieRepository.findById(id).orElse(null);
+        if (movie == null) {
+            return null;
+        }
+        return movieMapper.toDto(movie);
     }
+
 
     @Override
     public MovieDTO addMovie(MovieDTO movieDto) {
