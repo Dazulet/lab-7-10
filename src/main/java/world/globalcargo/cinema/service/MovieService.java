@@ -38,7 +38,7 @@ public class MovieService implements MoviesServiceInterface {
     @Override
     public MovieDTO addMovie(MovieDTO movieDto) {
         Movie movie = movieMapper.toEntity(movieDto);
-        assignGenresToMovie(movie, movieDto); // Добавляем жанры
+        assignGenresToMovie(movie, movieDto);
         Movie savedMovie = movieRepository.save(movie);
         return movieMapper.toDto(savedMovie);
     }
